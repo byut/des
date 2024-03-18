@@ -5,8 +5,6 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define UNUSED(x) (void)(x)
-
 struct benchmark_st {
     double elapsed_time;
     double mbps;

@@ -5,8 +5,6 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define UNUSED(x) (void)(x)
-
 static uint64_t *randu64arr() {
     uint64_t *arr = (uint64_t *)malloc(64 * sizeof(uint64_t));
     for (size_t i = 0; i < 64; ++i)

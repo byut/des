@@ -4,6 +4,10 @@
 
 #include <stdint.h>
 
+#ifndef UNUSED
+#define UNUSED(x) (void)(x)
+#endif
+
 /**
  * Transpose a 64x64 binary matrix.
  *
