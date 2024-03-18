@@ -1,6 +1,6 @@
 #pragma once
-#ifndef _DES_UTILS_H_
-#define _DES_UTILS_H_
+#ifndef _DES_COMMON_H_
+#define _DES_COMMON_H_
 
 #include <stdint.h>
 
@@ -15,4 +15,4 @@
  */
 void DES_transpose(uint64_t *out, const uint64_t *in);
 
-#endif // !_DES_UTILS_H_
+#endif // !_DES_COMMON_H_

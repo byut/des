@@ -1,4 +1,5 @@
-#include <des/core/utils.h>
+#include <des/core/common.h>
+
 #include <string.h>
 
 void DES_transpose(uint64_t *out, const uint64_t *in) {
