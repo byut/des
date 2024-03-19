@@ -14,6 +14,8 @@
                 (((uint64_t)(random()) & 0xFFFF) << 32) |                      \
                 (((uint64_t)(random()) & 0xFFFF) << 48)))
 
+#define DES_DSIZE 64
+
 /**
  * Transpose a 64x64 binary matrix.
  *
