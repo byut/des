@@ -8,6 +8,12 @@
 #define UNUSED(x) (void)(x)
 #endif
 
+#define RANDU64()                                                              \
+    ((uint64_t)(((uint64_t)(random()) & 0xFFFF) |                              \
+                (((uint64_t)(random()) & 0xFFFF) << 16) |                      \
+                (((uint64_t)(random()) & 0xFFFF) << 32) |                      \
+                (((uint64_t)(random()) & 0xFFFF) << 48)))
+
 /**
  * Transpose a 64x64 binary matrix.
  *
