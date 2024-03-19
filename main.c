@@ -1,61 +1,63 @@
 #include <des/core.h>
 #include <des/core/common.h>
 
+#include <inttypes.h>
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 
-static uint64_t *randu64arr() {
-    uint64_t *arr = (uint64_t *)malloc(64 * sizeof(uint64_t));
-    for (size_t i = 0; i < 64; ++i)
-        for (size_t j = 0; j < 64; ++j)
-            arr[i] = arr[i] * 2 + rand() % 2;
-    return arr;
-}
+#define FPRINTM_N 8
 
-static void printT(const uint64_t *matrix_T, size_t coln) {
-    for (size_t i = 0; i < 64; ++i) {
-        printf("0x");
-        uint8_t byte = 0;
-        for (size_t j = 0, size = 0; j < 64; ++j) {
-            byte |= ((((matrix_T[j] << i) & 0x8000000000000000) >> j) != 0)
-                    << (7 - size++);
-            if (size % 8 == 0) {
-                printf("%02x", byte);
-                size = 0, byte = 0;
-            }
-        }
-        printf((i + 1) % coln == 0 || i == 63 ? "\n" : " ");
+static uint64_t buffer[DES_DSIZE] = {0};
+static uint64_t data[DES_DSIZE] = {0};
+static uint64_t keys[DES_DSIZE] = {0};
+static uint64_t cipher[DES_DSIZE] = {0};
+
+static void fprintm(FILE *stream, const uint64_t *matrix, size_t n, size_t m) {
+    for (size_t i = 0; i < n; ++i) {
+        fprintf(stream, "0x%016" PRIx64 " ", matrix[i]);
+        if ((i + 1) % m == 0)
+            fprintf(stream, "\n");
     }
 }
 
 int main(int argc, char *argv[]) {
     UNUSED(argc), UNUSED(argv);
-
     srand(time(0));
 
-    uint64_t *in = randu64arr(), in_T[64];
-    DES_transpose(in_T, in), free(in), in = NULL;
-    printf("Input:\n"), fflush(stdout);
-    printT(in_T, 5);
-    printf("\n");
+    for (size_t i = 0; i < DES_DSIZE; ++i)
+        buffer[i] = RANDU64();
 
-    uint64_t *keys = randu64arr(), keys_T[64];
-    DES_transpose(keys_T, keys), free(keys), keys = NULL;
-    printf("Keys:\n");
-    printT(keys_T, 5);
-    printf("\n");
+    fprintf(stdout, "Data:\n");
+    fprintm(stdout, buffer, DES_DSIZE, FPRINTM_N);
+    fprintf(stdout, "\n");
 
-    uint64_t cipher_T[64];
-    DES_e(cipher_T, in_T, keys_T);
-    printf("Ciphertext:\n");
-    printT(cipher_T, 5);
-    printf("\n");
+    DES_transpose(data, buffer);
 
-    uint64_t plain_T[64];
-    DES_d(plain_T, cipher_T, keys_T);
-    printf("Plaintext:\n");
-    printT(plain_T, 5);
+    for (size_t i = 0; i < DES_DSIZE; ++i)
+        buffer[i] = RANDU64();
+
+    fprintf(stdout, "Keys:\n");
+    fprintm(stdout, buffer, DES_DSIZE, FPRINTM_N);
+    fprintf(stdout, "\n");
+
+    DES_transpose(keys, buffer);
+
+    DES_e(cipher, data, keys);
+
+    DES_transpose(buffer, cipher);
+    fprintf(stdout, "Cipher:\n");
+    fprintm(stdout, buffer, DES_DSIZE, FPRINTM_N);
+    fprintf(stdout, "\n");
+
+    for (size_t i = 0; i < DES_DSIZE; ++i)
+        data[i] = 0;
+    DES_d(data, cipher, keys);
+
+    DES_transpose(buffer, data);
+    fprintf(stdout, "Data (decrypted):\n");
+    fprintm(stdout, buffer, DES_DSIZE, FPRINTM_N);
 
     return 0;
 }
