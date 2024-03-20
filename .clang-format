@@ -1,1 +1,44 @@
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# Clang-Format Style Options
+# See: https://clang.llvm.org/docs/ClangFormatStyleOptions.html
+
+TabWidth: 4
 IndentWidth: 4
+UseTab: Never
+
+AccessModifierOffset: -2
+
+AlignOperands: Align
+AlignAfterOpenBracket: Align
+AlignArrayOfStructures: Right
+
+AlignConsecutiveAssignments: Consecutive
+AlignConsecutiveBitFields: Consecutive
+AlignConsecutiveDeclarations: Consecutive
+AlignConsecutiveMacros: Consecutive
+
+AllowShortCaseLabelsOnASingleLine: true
+AlignConsecutiveShortCaseStatements:
+  Enabled: true
+  AcrossEmptyLines: true
+  AcrossComments: true
+  AlignCaseColons: false
+
+AlignEscapedNewlines: Right
+AlignTrailingComments:
+  Kind: Always
+  OverEmptyLines: 2
+
+AllowShortBlocksOnASingleLine: Empty
+AllowShortFunctionsOnASingleLine: All
+AllowShortEnumsOnASingleLine: true
+AllowAllParametersOfDeclarationOnNextLine: true
+AllowShortIfStatementsOnASingleLine: AllIfsAndElse
+AllowShortLambdasOnASingleLine: Inline
+AllowShortLoopsOnASingleLine: true
+AlwaysBreakTemplateDeclarations: Yes
+
+BreakStringLiterals: true
+
+IndentCaseBlocks: true
+IndentCaseLabels: true
